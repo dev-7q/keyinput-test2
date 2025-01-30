@@ -12,6 +12,7 @@
             padding: 0;
         }
 
+
         #root {
             width: 2000px;
             height: 1000px;
@@ -20,13 +21,17 @@
 
         .line {
             display: inline-block;
-            border: 0.5px solid black;
             box-sizing: border-box;
+            width: 30px;
+            position: relative;
+        }
+
+        .line-info {
+            position: absolute;
+            bottom: -30px;
             width: 30px;
             font-size: 20px;
             text-align: center;
-            position: relative;
-            line-height: 2025px;
         }
 
         .note {
@@ -67,7 +72,7 @@
             ['1', '!', '2', '@', '3', '4', '$', '5', '%', '6', '^', '7', '8', '*', '9', '(', '0'],
             ['q', 'Q', 'w', 'W', 'e', 'E', 'r', 't', 'T', 'y', 'Y', 'u', 'i', 'I', 'o', 'O', 'p', 'P'],
             ['a', 's', 'S', 'd', 'D', 'f', 'g', 'G', 'h', 'H', 'j', 'J', 'k', 'l', 'L'],
-            ['z', 'Z', 'x', 'c', 'v', 'V', 'b', 'B', 'n', 'm', 'M']];
+            ['z', 'Z', 'x', 'c', 'C', 'v', 'V', 'b', 'B', 'n', 'm']];
         const keyFlatArray = keyArray.reduce((acc, cur) => acc.concat(cur), []);
         const keyMap = keyFlatArray.reduce((acc, item) => {
             acc[item] = false;
@@ -83,10 +88,20 @@
             // console.log(keyFlatArray[i]);
             var line = document.createElement('div');
             if (isUpperCaseOrSpecialChar(keyFlatArray[i])) {
-                line.style.backgroundColor = 'gray';
+                line.style.backgroundColor = 'lightgray';
             }
             line.className = 'line';
-            line.innerHTML = keyFlatArray[i];
+            let lineInfo = document.createElement("div");
+            lineInfo.className = 'line-info';
+            lineInfo.innerHTML = keyFlatArray[i];
+            if (isUpperCaseOrSpecialChar(keyFlatArray[i])) {
+                lineInfo.style.backgroundColor = 'black';
+                lineInfo.style.color = 'white';
+            } else {
+                lineInfo.style.backgroundColor = 'white';
+                lineInfo.style.color = 'black';
+            }
+            line.appendChild(lineInfo);
             line.id = `line-${keyFlatArray[i]}`;
             root.appendChild(line);
         }
