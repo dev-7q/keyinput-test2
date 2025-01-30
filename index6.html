@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        #root {
+            width: 2000px;
+            height: 1000px;
+            display: flex;
+        }
+
+        .line {
+            display: inline-block;
+            border: 0.5px solid black;
+            box-sizing: border-box;
+            width: 30px;
+            font-size: 20px;
+            text-align: center;
+            position: relative;
+            line-height: 2025px;
+        }
+
+        .note {
+            display: block;
+            width: 100%;
+            height: 10px;
+            background-color: black;
+            animation: up linear 4s none;
+            position: absolute;
+            top: 100%;
+            visibility: hidden;
+        }
+
+        @keyframes up {
+            0% {
+                top: 100%;
+                visibility: visible;
+            }
+
+            100% {
+                top: 0;
+                visibility: hidden;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+    <script>
+        function isUpperCaseOrSpecialChar(str) {
+            const regex = /^[A-Z!@#$%^&*()_+={}\[\]:;"'<>,.?/\\|-]*$/; // 대문자와 특수문자만 허용
+            return regex.test(str);
+        }
+        const keyArray = [
+            ['1', '!', '2', '@', '3', '4', '$', '5', '%', '6', '^', '7', '8', '*', '9', '(', '0'],
+            ['q', 'Q', 'w', 'W', 'e', 'E', 'r', 't', 'T', 'y', 'Y', 'u', 'i', 'I', 'o', 'O', 'p', 'P'],
+            ['a', 's', 'S', 'd', 'D', 'f', 'g', 'G', 'h', 'H', 'j', 'J', 'k', 'l', 'L'],
+            ['z', 'Z', 'x', 'c', 'v', 'V', 'b', 'B', 'n', 'm', 'M']];
+        const keyFlatArray = keyArray.reduce((acc, cur) => acc.concat(cur), []);
+        const keyMap = keyFlatArray.reduce((acc, item) => {
+            acc[item] = false;
+            return acc;
+        }, {});
+
+        // console.log(keyMap);
+        // console.log(keyArray);
+        // console.log(keyFlatArray);
+
+        const root = document.getElementById('root');
+        for (let i = 0; i < keyFlatArray.length; i++) {
+            // console.log(keyFlatArray[i]);
+            var line = document.createElement('div');
+            if (isUpperCaseOrSpecialChar(keyFlatArray[i])) {
+                line.style.backgroundColor = 'gray';
+            }
+            line.className = 'line';
+            line.innerHTML = keyFlatArray[i];
+            line.id = `line-${keyFlatArray[i]}`;
+            root.appendChild(line);
+        }
+        document.addEventListener("keydown", function (e) {
+            try {
+
+                keyMap[e.key] = true;
+            } catch (x) {
+                console.log(x);
+            }
+
+        });
+        document.addEventListener('keyup', function (e) {
+            try {
+
+                keyMap[e.key] = false;
+            } catch (x) {
+                console.log(x);
+            }
+
+        })
+        function createNote(lineNumber) {
+            // console.log(lineNumber);
+            var line = document.getElementById('line-' + lineNumber);
+            var note = document.createElement('div');
+            note.className = 'note';
+            line.appendChild(note);
+        }
+        setInterval(function () {
+            // console.log(keyMap);
+            let keys = Object.keys(keyMap);
+            for (let i = 0; i < keys.length; i++) {
+                if (keyMap[keys[i]] == true) {
+                    createNote(keys[i]);
+                }
+            }
+        }, 25);
+    </script>
+</body>
+
+</html>

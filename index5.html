@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        #root {
+            width: 1000px;
+            height: 500px;
+            display: flex;
+        }
+
+        .line {
+            display: inline-block;
+            border: 0.5px solid black;
+            box-sizing: border-box;
+            width: 7px;
+            font-size: 5px;
+            text-align: center;
+            line-height: 1005px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+    <script>
+        function isUpperCaseOrSpecialChar(str) {
+            const regex = /^[A-Z!@#$%^&*()_+={}\[\]:;"'<>,.?/\\|-]*$/; // 대문자와 특수문자만 허용
+            return regex.test(str);
+        }
+        const keyArray = [
+            ['1', '!', '2', '@', '3', '4', '$', '5', '%', '6', '^', '7', '8', '*', '9', '(', '0'],
+            ['q', 'Q', 'w', 'W', 'e', 'E', 'r', 't', 'T', 'y', 'Y', 'u', 'i', 'I', 'o', 'O', 'p', 'P'],
+            ['a', 's', 'S', 'd', 'D', 'f', 'g', 'G', 'h', 'H', 'j', 'J', 'k', 'l', 'L'],
+            ['z', 'Z', 'x', 'c', 'v', 'V', 'b', 'B', 'n', 'm', 'M']];
+        const keyFlatArray = keyArray.reduce((acc, cur) => acc.concat(cur), []);
+        const keyObject = keyFlatArray.reduce((acc, item) => {
+            acc[item] = false;
+            return acc;
+        }, {});
+
+        console.log(keyObject);
+        console.log(keyArray);
+        console.log(keyFlatArray);
+
+        const root = document.getElementById('root');
+        for (let i = 0; i < keyFlatArray.length; i++) {
+            console.log(keyFlatArray[i]);
+            var line = document.createElement('div');
+            if (isUpperCaseOrSpecialChar(keyFlatArray[i])) {
+                line.style.backgroundColor = 'gray';
+            }
+            line.className = 'line';
+            line.innerHTML = keyFlatArray[i];
+            line.id = `line-${keyFlatArray[i]}`;
+            root.appendChild(line);
+        }
+    </script>
+</body>
+
+</html>

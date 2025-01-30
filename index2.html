@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+        }
+
+        .line {
+            display: inline-block;
+            border: 1px solid black;
+            width: 25px;
+            height: 400px;
+            position: relative;
+        }
+
+        .note {
+            display: block;
+            width: 25px;
+            height: 10px;
+            background-color: black;
+            animation: up linear 2s none;
+            position: absolute;
+            top: 100%;
+            visibility: hidden;
+        }
+
+        @keyframes up {
+            0% {
+                top: 100%;
+                visibility: visible;
+            }
+
+            100% {
+                top: 0;
+                visibility: hidden;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="line-1" class="line">
+
+    </div>
+    <div id="line-2" class="line">
+
+    </div>
+    <div id="line-3" class="line">
+
+    </div>
+    <div id="line-4" class="line">
+
+    </div>
+    <div id="line-5" class="line">
+
+    </div>
+    <div id="line-6" class="line">
+
+    </div>
+    <div id="line-7" class="line">
+
+    </div>
+    <div id="line-8" class="line">
+
+    </div>
+    <div id="line-9" class="line">
+
+    </div>
+    <div id="line-0" class="line">
+
+    </div>
+    <script>
+        var keyList = [
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
+            ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+            ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+            ['z', 'x', 'c', 'v', 'b', 'n', 'm']
+        ];
+        
+
+
+        var keyMap = {
+            1: false,
+            2: false,
+            3: false,
+            4: false,
+            5: false,
+            6: false,
+            6: false,
+            7: false,
+            8: false,
+            9: false,
+            0: false,
+        };
+        document.addEventListener("keydown", function (e) {
+            if (e.key >= 0 && e.key <= 9) {
+                keyMap[e.key] = true;
+            }
+        });
+        document.addEventListener('keyup', function (e) {
+            if (e.key >= 0 && e.key <= 9) {
+                keyMap[e.key] = false;
+            }
+        })
+        function createNote(lineNumber) {
+            // console.log(lineNumber);
+            var line = document.getElementById('line-' + lineNumber);
+            var note = document.createElement('div');
+            note.className = 'note';
+            line.appendChild(note);
+        }
+        setInterval(function () {
+            // console.log(keyMap);
+            let keys = Object.keys(keyMap);
+            for (let i = 0; i < keys.length; i++) {
+                if (keyMap[keys[i]] == true) {
+                    createNote(keys[i]);
+                }
+            }
+        }, 25);
+    </script>
+</body>
+
+</html>
